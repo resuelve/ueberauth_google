@@ -23,7 +23,7 @@ defmodule Ueberauth.Strategy.Google do
       |> with_param(:access_type, conn)
       |> with_param(:prompt, conn)
       |> with_param(:state, conn)
-      |> Keyword.put(:redirect_uri, callback_url(conn))
+      |> Keyword.put(:redirect_uri, '')
 
     redirect!(conn, Ueberauth.Strategy.Google.OAuth.authorize_url!(opts))
   end
@@ -32,7 +32,7 @@ defmodule Ueberauth.Strategy.Google do
   Handles the callback from Google.
   """
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
-    opts = [redirect_uri: 'postmessage']
+    opts = [redirect_uri: '']
     token = Ueberauth.Strategy.Google.OAuth.get_token!([code: code], opts)
 
     if token.access_token == nil do
