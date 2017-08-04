@@ -9,6 +9,8 @@ defmodule Ueberauth.Strategy.Google do
   alias Ueberauth.Auth.Credentials
   alias Ueberauth.Auth.Extra
 
+  require Logger
+
   @doc """
   Handles initial request for Google authentication.
   """
@@ -34,6 +36,7 @@ defmodule Ueberauth.Strategy.Google do
   def handle_callback!(%Plug.Conn{params: %{"code" => code}} = conn) do
     opts = []
     token = Ueberauth.Strategy.Google.OAuth.get_token!([code: code], opts)
+    Logger.debug "#{inspect token}"
 
     if token.access_token == nil do
       set_errors!(conn, [error(token.other_params["error"], token.other_params["error_description"])])

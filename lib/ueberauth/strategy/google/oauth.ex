@@ -10,6 +10,8 @@ defmodule Ueberauth.Strategy.Google.OAuth do
   """
   use OAuth2.Strategy
 
+  require Logger
+
   @defaults [
      strategy: __MODULE__,
      site: "https://accounts.google.com",
@@ -52,6 +54,9 @@ defmodule Ueberauth.Strategy.Google.OAuth do
   end
 
   def get_token!(params \\ [], opts \\ []) do
+
+    Logger.debug "#{inspect params} - #{inspect opts}"
+
     client =
       opts
       |> client
